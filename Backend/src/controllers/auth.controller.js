@@ -70,6 +70,14 @@ async function loginUser(req,res) {
 
     }, process.env.JWT_TOKEN)
 
+    // Set cookie
+    res.cookie("token", token, {
+        httpOnly: true,                      // prevents JS access to cookie
+        secure: process.env.NODE_ENV === "production", // only over HTTPS in prod
+        sameSite: "strict",
+        maxAge: 24 * 60 * 60 * 1000 // 1 day
+    });
+
     res.status(200).json({
         message:"User logged in successfully",
         user:{
@@ -149,6 +157,14 @@ async function loginFoodPartner(req, res) {
     const token = jwt.sign({
         id:foodPartner._id
     },process.env.JWT_TOKEN);
+
+    // Set cookie
+    res.cookie("token", token, {
+        httpOnly: true,                      // prevents JS access to cookie
+        secure: process.env.NODE_ENV === "production", // only over HTTPS in prod
+        sameSite: "strict",
+        maxAge: 24 * 60 * 60 * 1000 // 1 day
+    });
 
     res.status(200).json({
         message:"Partner logged in Successfully",
