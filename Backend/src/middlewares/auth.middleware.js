@@ -1,4 +1,4 @@
-const foodPartnerModel= require("../models/food.model");
+const foodPartnerModel= require("../models/foodPartner.model");
 const jwt = require("jsonwebtoken");
 const userModel = require("../models/user.model");
 
@@ -40,7 +40,7 @@ async function authUserMiddleware(req, res, next) {
     }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET)
+        const decoded = jwt.verify(token, process.env.JWT_TOKEN)
 
         const user = await userModel.findById(decoded.id);
 
