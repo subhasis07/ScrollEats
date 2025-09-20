@@ -1,10 +1,62 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 const RegisterPartner = () => {
 
-  const handleSubmit=()=>{
+  const[formData,setFormData]=useState({
+    businessName:"",
+    contactName:"",
+    phone:"",
+    email:"",
+    password:"",
+    address:""
 
+  })
+
+  const[error,setError]=useState("");
+  const[success,setSuccess]=useState("");
+
+  const handleChange=(e)=>{
+    setFormData({
+      ...formData,
+      [e.target.name]:e.target.value
+    })
+
+  }
+
+  const handleSubmit= async(e)=>{
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+
+    if (!formData.businessName || !formData.contactName || !formData.email || !formData.password) {
+      setError("Please fill all required fields.");
+      return;
+    }
+
+    try {
+      const res=await axios.post(
+        "http://localhost:3000/api/auth/food-partner/register",
+        formData,
+        {withCredentials:true}
+      )
+
+      localStorage.setItem("user",JSON.stringify(res.data.foodPartner));
+      // localStorage.setItem("token", res.data.token || ""); 
+
+      setSuccess("Registration Success!");
+      setFormData({
+        businessName: "",
+        contactName: "",
+        phone: "",
+        email: "",
+        password: "",
+        address: ""
+      });
+    } catch (error) {
+      setError(error?.response?.data?.message || "Something went wrong");
+    }
   }
 
   return (
@@ -32,6 +84,8 @@ const RegisterPartner = () => {
             <input
               id="businessName"
               name="businessName"
+              value={formData.businessName}
+              onChange={handleChange}
               placeholder="Tasty Bites"
               autoComplete="organization"
               className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -45,6 +99,8 @@ const RegisterPartner = () => {
               <input
                 id="contactName"
                 name="contactName"
+                value={formData.contactName}
+                onChange={handleChange}
                 placeholder="Jane Doe"
                 autoComplete="name"
                 className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -55,6 +111,8 @@ const RegisterPartner = () => {
               <input
                 id="phone"
                 name="phone"
+                value={formData.phone}
+                onChange={handleChange}
                 placeholder="+1 555 123 4567"
                 autoComplete="tel"
                 className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -69,6 +127,8 @@ const RegisterPartner = () => {
               id="email"
               name="email"
               type="email"
+              value={formData.email}
+              onChange={handleChange}
               placeholder="business@example.com"
               autoComplete="email"
               className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -82,6 +142,8 @@ const RegisterPartner = () => {
               id="password"
               name="password"
               type="password"
+              value={formData.password}
+              onChange={handleChange}
               placeholder="Create password"
               autoComplete="new-password"
               className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -94,6 +156,8 @@ const RegisterPartner = () => {
             <input
               id="address"
               name="address"
+              value={formData.address}
+              onChange={handleChange}
               placeholder="123 Market Street"
               autoComplete="street-address"
               className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -109,6 +173,9 @@ const RegisterPartner = () => {
             Create Partner Account
           </button>
         </form>
+
+        {error && <p className='mt-4 text-red-500 text-center'>{error}</p>}
+        {success && <p className="mt-4 text-green-600 text-center">{success}</p>}
 
         {/* Alternate action */}
         <div className="mt-6 text-center text-gray-500">

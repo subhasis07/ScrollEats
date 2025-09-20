@@ -1,10 +1,58 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios';
 
 const RegisterUser = () => {
 
-  const handleSubmit=()=>{
+  const[formData, setFormData]=useState({
+    fullName:"",
+    email:"",
+    password:""
+  })
 
+  const[error, setError]=useState("");
+  const[success,setSuccess]=useState("");
+  const navigate=useNavigate();
+
+  const handleChange=(e)=>{
+    setFormData({
+      ...formData,
+      [e.target.name]:e.target.value
+    })
+  }
+
+  const handleSubmit= async(e)=>{
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+
+    if (!formData.fullName || !formData.email || !formData.password) {
+      setError("Please fill all required fields.");
+      return;
+    }
+
+    try {
+      const res=await axios.post(
+        "http://localhost:3000/api/auth/user/register",
+        formData,
+        {withCredentials: true}
+      );
+
+
+      //save user + localStorage
+      localStorage.setItem("user",JSON.stringify(res.data.user));
+      // localStorage.setItem("token", res.data.token || ""); 
+
+      setSuccess("Registration Success")
+      setFormData({
+        fullName:"",
+        email:"",
+        password:""
+      });
+
+    } catch (error) {
+      setError(error.response?.data?.message || "Something went wrong");
+    }
   }
 
   return (
@@ -26,25 +74,17 @@ const RegisterUser = () => {
 
         {/* Form */}
         <form className="flex flex-col gap-4" onSubmit={handleSubmit} noValidate>
-          {/* First & Last Name */}
+          {/* Full Name */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col">
-              <label htmlFor="firstName" className="mb-1 text-gray-700 font-medium">First Name</label>
+              <label htmlFor="fullName" className="mb-1 text-gray-700 font-medium">Name</label>
               <input
-                id="firstName"
-                name="firstName"
-                placeholder="Jane"
-                autoComplete="given-name"
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-            <div className="flex flex-col">
-              <label htmlFor="lastName" className="mb-1 text-gray-700 font-medium">Last Name</label>
-              <input
-                id="lastName"
-                name="lastName"
-                placeholder="Doe"
-                autoComplete="family-name"
+                id="fullName"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
+                placeholder="Jane Doe"
+                autoComplete="name"
                 className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
@@ -57,6 +97,8 @@ const RegisterUser = () => {
               id="email"
               name="email"
               type="email"
+              value={formData.email}
+              onChange={handleChange}
               placeholder="you@example.com"
               autoComplete="email"
               className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -70,6 +112,8 @@ const RegisterUser = () => {
               id="password"
               name="password"
               type="password"
+              value={formData.password}
+              onChange={handleChange}
               placeholder="••••••••"
               autoComplete="new-password"
               className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -84,6 +128,9 @@ const RegisterUser = () => {
             Sign Up
           </button>
         </form>
+
+        {error && <p className='mt-4 text-red-500 text-center'>{error}</p>}
+        {success && <p className="mt-4 text-green-600 text-center">{success}</p>}
 
         {/* Alternate action */}
         <div className="mt-6 text-center text-gray-500">
