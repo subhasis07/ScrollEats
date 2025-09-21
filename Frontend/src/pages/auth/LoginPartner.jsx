@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+
 
 const LoginPartner = () => {
 
@@ -10,6 +11,7 @@ const LoginPartner = () => {
   })
   const[error,setError]=useState("");
   const[success,setSuccess]=useState("")
+  const navigate=useNavigate()
 
   const handleChange=(e)=>{
     setFormData({
@@ -42,6 +44,10 @@ const LoginPartner = () => {
 
       setSuccess("Login successful! Redirecting...");
       setFormData({ email: "", password: "" });
+
+      setTimeout(() => {
+        navigate("/create-food");
+      }, 1500);
 
     } catch (err) {
       setError(err?.response?.data?.message || "Invalid email or password.");

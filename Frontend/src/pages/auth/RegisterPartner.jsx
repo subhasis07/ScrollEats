@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 const RegisterPartner = () => {
@@ -16,6 +16,7 @@ const RegisterPartner = () => {
 
   const[error,setError]=useState("");
   const[success,setSuccess]=useState("");
+  const navigate = useNavigate()
 
   const handleChange=(e)=>{
     setFormData({
@@ -54,6 +55,12 @@ const RegisterPartner = () => {
         password: "",
         address: ""
       });
+
+      setTimeout(() => {
+        navigate("/create-food");
+      }, 1500);
+
+
     } catch (error) {
       setError(error?.response?.data?.message || "Something went wrong");
     }
