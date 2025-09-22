@@ -74,8 +74,8 @@ const FoodCreate = () => {
       withCredentials: true,
     });
 
-    console.log(response.data);
-    navigate("/");
+    // console.log(response.data);
+    navigate(`/food-partner/${response.data.foodPartner}`);
   };
 
   const isDisabled = useMemo(() => !form.name.trim() || !form.videoFile, [form]);

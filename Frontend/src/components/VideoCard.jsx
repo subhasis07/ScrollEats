@@ -1,9 +1,10 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Heart, Bookmark } from "lucide-react"; 
 
-const VideoCard = ({ video }) => {
+const VideoCard = ({ video, onLike, onSave }) => {
   const videoRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false); // track if this video is currently in view
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -22,9 +23,7 @@ const VideoCard = ({ video }) => {
 
             if (el.paused) {
               el.play().catch((err) => {
-                if (err.name !== "AbortError") {
-                  console.error("Play error:", err);
-                }
+                if (err.name !== "AbortError") console.error("Play error:", err);
               });
             }
           } else {
@@ -38,13 +37,12 @@ const VideoCard = ({ video }) => {
 
     if (videoRef.current) observer.observe(videoRef.current);
 
-    return () => {
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
   }, []);
 
   return (
     <div className="h-screen w-full flex items-center justify-center bg-black snap-start relative">
+      {/* Video */}
       <video
         ref={videoRef}
         src={video.video}
@@ -56,13 +54,34 @@ const VideoCard = ({ video }) => {
 
       {isVisible && (
         <>
-          {/* Name & Description - left bottom */}
+          {/* Name & Description */}
           <div className="absolute bottom-10 left-5 text-white bg-black/40 p-4 rounded-lg max-w-sm">
             <h2 className="text-lg font-bold">{video.name}</h2>
             <p>{video.description}</p>
           </div>
 
-          {/* Visit Store Button - right bottom */}
+          {/* Right-side controls */}
+          <div className="absolute bottom-24 right-5 flex flex-col items-center gap-6 text-white">
+            {/* Like Button */}
+            <button
+              onClick={onLike}
+              className="flex flex-col items-center hover:scale-110 transition"
+            >
+              <Heart className="h-8 w-8" />
+              <span className="text-sm">{video.likeCount || 0}</span>
+            </button>
+
+            {/* Save Button */}
+            <button
+              onClick={onSave}
+              className="flex flex-col items-center hover:scale-110 transition"
+            >
+              <Bookmark className="h-8 w-8" />
+              <span className="text-sm">{video.savesCount || 0}</span>
+            </button>
+          </div>
+
+          {/* Visit Store */}
           {video.foodPartner && (
             <div className="absolute bottom-10 right-5">
               <Link

@@ -24,7 +24,7 @@ const Profile = () => {
         <div className="flex items-center gap-6">
           <img
             className="w-24 h-24 rounded-full object-cover border border-gray-300"
-            src="https://images.unsplash.com/photo-1754653099086-3bddb9346d37?w=200&auto=format&fit=crop&q=60"
+            src="https://images.unsplash.com/photo-1750535135733-4ade39b4d487?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt={profile?.businessName}
           />
 
@@ -37,7 +37,7 @@ const Profile = () => {
         <div className="flex gap-10">
           <div className="flex flex-col items-center">
             <span className="text-sm text-gray-500">Total meals</span>
-            <span className="text-lg font-semibold">{profile?.totalMeals || 0}</span>
+            <span className="text-lg font-semibold">{videos.length || 0}</span>
           </div>
           <div className="flex flex-col items-center">
             <span className="text-sm text-gray-500">Customers served</span>
@@ -60,21 +60,31 @@ const Profile = () => {
                 className="relative bg-black rounded-lg overflow-hidden group"
               >
                 <video
-                  className="w-full h-64 object-cover cursor-pointer"
                   src={v.video}
                   muted
                   loop
                   playsInline
-                  onMouseEnter={(e) => e.target.play()}
+                  preload="auto"
+                  className="w-full h-64 object-cover cursor-pointer"
+                  onMouseEnter={(e) => e.target.play().catch(() => {})}
                   onMouseLeave={(e) => e.target.pause()}
+                  onClick={(e) => {
+                    const video = e.target;
+                    if (video.paused) {
+                      video.play().catch(() => {});
+                    } else {
+                      video.pause();
+                    }
+                  }}
                 />
-                {/* Overlay play icon on hover (optional) */}
+                {/* Overlay on hover */}
                 <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition"></div>
               </div>
             ))}
           </div>
         )}
       </section>
+
     </main>
   )
 }
