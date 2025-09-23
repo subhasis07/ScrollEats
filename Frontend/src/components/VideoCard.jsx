@@ -55,13 +55,13 @@ const VideoCard = ({ video, onLike, onSave }) => {
       {isVisible && (
         <>
           {/* Name & Description */}
-          <div className="absolute bottom-10 left-5 text-white bg-black/40 p-4 rounded-lg max-w-sm">
+          <div className="absolute bottom-15 left-5 text-white bg-black/40 p-4 rounded-lg max-w-sm">
             <h2 className="text-lg font-bold">{video.name}</h2>
             <p>{video.description}</p>
           </div>
 
           {/* Right-side controls */}
-          <div className="absolute bottom-24 right-5 flex flex-col items-center gap-6 text-white">
+          <div className="absolute bottom-30 right-5 flex flex-col items-center gap-6 text-white">
             {/* Like Button */}
             <button
               onClick={onLike}
@@ -83,12 +83,12 @@ const VideoCard = ({ video, onLike, onSave }) => {
 
           {/* Visit Store */}
           {video.foodPartner && (
-            <div className="absolute bottom-10 right-5">
+            <div className="absolute bottom-20 right-5">
               <Link
                 to={"/food-partner/" + video.foodPartner}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded "
               >
                 Visit Store
               </Link>
