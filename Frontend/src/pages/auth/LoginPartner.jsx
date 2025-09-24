@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 
+const API = import.meta.env.VITE_API_URL;
+
 const LoginPartner = () => {
 
   const[formData,setFormData]=useState({
@@ -32,7 +34,7 @@ const LoginPartner = () => {
 
     try {
       const res=await axios.post(
-        "http://localhost:3000/api/auth/food-partner/login",
+        `${API}/api/auth/food-partner/login`,
         formData,
         {withCredentials:true}
       )

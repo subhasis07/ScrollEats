@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 
+const API = import.meta.env.VITE_API_URL;
+
 const LoginUser = () => {
 
   const[formData, setFormData]=useState({
@@ -32,7 +34,7 @@ const LoginUser = () => {
 
     try {
       const res=await axios.post(
-        "http://localhost:3000/api/auth/user/login",
+        `${API}/api/auth/user/login`,
         formData,
         {withCredentials:true}
       )

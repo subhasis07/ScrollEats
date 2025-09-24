@@ -2,6 +2,8 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const API = import.meta.env.VITE_API_URL;
+
 const FoodCreate = () => {
   const [form, setForm] = useState({
     name: "",
@@ -70,7 +72,7 @@ const FoodCreate = () => {
     formData.append("description", form.description);
     formData.append("video", form.videoFile);
 
-    const response = await axios.post("http://localhost:3000/api/food", formData, {
+    const response = await axios.post(`${API}/api/food`, formData, {
       withCredentials: true,
     });
 

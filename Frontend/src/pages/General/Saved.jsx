@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import VideoCard from "../../components/VideoCard";
 
+const API = import.meta.env.VITE_API_URL;
+
 const Saved = () => {
   const [videos, setVideos] = useState([]);
 
@@ -9,7 +11,7 @@ const Saved = () => {
     const fetchSaved = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/food/save",
+          `${API}/api/food/save`,
           { withCredentials: true }
         );
 
@@ -36,7 +38,7 @@ const Saved = () => {
   const removeSaved = async (item) => {
     try {
       await axios.post(
-        "http://localhost:3000/api/food/save",
+        `${API}/api/food/save`,
         { foodId: item._id },
         { withCredentials: true }
       );

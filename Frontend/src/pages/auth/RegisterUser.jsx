@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 
+const API = import.meta.env.VITE_API_URL;
+
 const RegisterUser = () => {
 
   const[formData, setFormData]=useState({
@@ -33,7 +35,7 @@ const RegisterUser = () => {
 
     try {
       const res=await axios.post(
-        "http://localhost:3000/api/auth/user/register",
+        `${API}/api/auth/user/register`,
         formData,
         {withCredentials: true}
       );
