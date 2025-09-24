@@ -8,12 +8,15 @@ const cors=require('cors')
 const app= express();
 
 app.use(cookieparser());
+
+const allowedOrigins = [
+  "http://localhost:5173",             // local dev
+  "https://scroll-eats.vercel.app"     // live frontend
+];
+
 app.use(cors({
-    origin: [
-        "http://localhost:5173",       // local dev
-        "https://scroll-eats.vercel.app/"  // deployed frontend
-    ],
-    credentials: true
+  origin: allowedOrigins,
+  credentials: true,
 }));
 app.use(express.json());
 
