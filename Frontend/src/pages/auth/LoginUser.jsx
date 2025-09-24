@@ -34,7 +34,7 @@ const LoginUser = () => {
 
     try {
       const res=await axios.post(
-        `${API}/api/auth/user/login`,
+        `https://scrolleats.onrender.com/api/auth/user/login`,
         formData,
         {withCredentials:true}
       )

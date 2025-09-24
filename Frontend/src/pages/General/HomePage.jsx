@@ -12,7 +12,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const res = await axios.get(`${API}/api/food`, {
+        const res = await axios.get(`https://scrolleats.onrender.com/api/food`, {
           withCredentials: true,
         });
         setVideos(res.data.foodItems || []);
@@ -29,7 +29,7 @@ const HomePage = () => {
   const likeVideo = async (item) => {
     try {
       const response = await axios.post(
-        `${API}/api/food/like`,
+        `https://scrolleats.onrender.com/api/food/like`,
         { foodId: item._id },
         { withCredentials: true }
       );
@@ -55,7 +55,7 @@ const HomePage = () => {
   const saveVideo = async (item) => {
     try {
       const response = await axios.post(
-        `${API}/api/food/save`,
+        `https://scrolleats.onrender.com/api/food/save`,
         { foodId: item._id },
         { withCredentials: true }
       );

@@ -72,7 +72,7 @@ const FoodCreate = () => {
     formData.append("description", form.description);
     formData.append("video", form.videoFile);
 
-    const response = await axios.post(`${API}/api/food`, formData, {
+    const response = await axios.post(`https://scrolleats.onrender.com/api/food`, formData, {
       withCredentials: true,
     });
 

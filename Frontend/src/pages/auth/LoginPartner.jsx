@@ -34,7 +34,7 @@ const LoginPartner = () => {
 
     try {
       const res=await axios.post(
-        `${API}/api/auth/food-partner/login`,
+        `https://scrolleats.onrender.com/api/auth/food-partner/login`,
         formData,
         {withCredentials:true}
       )

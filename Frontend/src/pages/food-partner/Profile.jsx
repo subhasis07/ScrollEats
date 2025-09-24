@@ -11,7 +11,7 @@ const Profile = () => {
 
   useEffect(() => {
     axios
-      .get(`${API}/api/food-partner/${id}`, { withCredentials: true })
+      .get(`https://scrolleats.onrender.com/api/food-partner/${id}`, { withCredentials: true })
       .then((response) => {
         setProfile(response.data.foodPartner)
         setVideos(response.data.foodPartner.foodItems || [])

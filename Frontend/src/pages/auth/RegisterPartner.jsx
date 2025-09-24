@@ -40,7 +40,7 @@ const RegisterPartner = () => {
 
     try {
       const res=await axios.post(
-        `${API}/api/auth/food-partner/register`,
+        `https://scrolleats.onrender.com/api/auth/food-partner/register`,
         formData,
         {withCredentials:true}
       )

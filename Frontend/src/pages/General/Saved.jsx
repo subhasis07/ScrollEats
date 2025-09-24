@@ -11,7 +11,7 @@ const Saved = () => {
     const fetchSaved = async () => {
       try {
         const response = await axios.get(
-          `${API}/api/food/save`,
+          `https://scrolleats.onrender.com/api/food/save`,
           { withCredentials: true }
         );
 
@@ -38,7 +38,7 @@ const Saved = () => {
   const removeSaved = async (item) => {
     try {
       await axios.post(
-        `${API}/api/food/save`,
+        `https://scrolleats.onrender.com/api/food/save`,
         { foodId: item._id },
         { withCredentials: true }
       );
