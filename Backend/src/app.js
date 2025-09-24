@@ -9,14 +9,17 @@ const app= express();
 
 app.use(cookieparser());
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: [
+        "http://localhost:5173",       // local dev
+        "https://scroll-eats.vercel.app/"  // deployed frontend
+    ],
     credentials: true
 }));
 app.use(express.json());
 
 
 app.get("/", (req,res)=>{
-    res.send("Hello WOrld");
+    res.send("Hello World");
     
 })
 
