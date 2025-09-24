@@ -11,7 +11,8 @@ app.use(cookieparser());
 
 const allowedOrigins = [
   "http://localhost:5173",             // local dev
-  "https://scroll-eats.vercel.app"     // live frontend
+  "https://scroll-eats.vercel.app",
+  "https://scroll-eats-fe.onrender.com/"     // live frontend
 ];
 
 app.use(cors({
