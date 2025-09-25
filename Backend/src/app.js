@@ -10,15 +10,22 @@ const app= express();
 app.use(cookieparser());
 
 const allowedOrigins = [
-  "http://localhost:5173",             // local dev
+  "http://localhost:5173",
   "https://scroll-eats.vercel.app",
-  "https://scroll-eats-fe.onrender.com/"     // live frontend
+  "https://scroll-eats-fe.onrender.com"  // no trailing slash
 ];
 
 app.use(cors({
-  origin: allowedOrigins,
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
 }));
+
 app.use(express.json());
 
 
