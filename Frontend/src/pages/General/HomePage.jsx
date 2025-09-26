@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import VideoCard from "../../components/VideoCard";
+import Header from "../../components/Header";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -12,9 +13,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const res = await axios.get(`https://scrolleats.onrender.com/api/food`, {
-          withCredentials: true,
-        });
+        const res = await axios.get(`https://scrolleats.onrender.com/api/food`);
         setVideos(res.data.foodItems || []);
       } catch (err) {
         console.error("Error fetching videos:", err);
@@ -94,7 +93,10 @@ const HomePage = () => {
   }
 
   return (
-    <div className="h-screen w-full overflow-y-scroll snap-y snap-mandatory">
+    <div className="h-screen w-full overflow-y-scroll snap-y snap-mandatory relative">
+      <Header/>
+
+      {/* Videos */}
       {videos.map((video, index) => (
         <VideoCard
           key={video._id || index}
